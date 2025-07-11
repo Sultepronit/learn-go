@@ -29,4 +29,26 @@ func main() {
 
 		fmt.Println(n)
 	}
+
+	fmt.Println("ranges:")
+	nums := []int{2, 3, 4}
+	for i, num := range nums {
+		fmt.Println(i, num)
+	}
+
+	map1 := map[string]string{
+		"a": "apple",
+		"b": "banana",
+	}
+
+	for k, v := range map1 {
+		fmt.Printf("%s -> %s\n", k, v)
+	}
+
+	for i, c := range "go!" {
+		fmt.Println(i, c)
+	}
+	// 0 103
+	// 1 111
+	// 2 33
 }
