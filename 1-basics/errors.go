@@ -28,6 +28,23 @@ func makeTea(arg int) error {
 	return nil
 }
 
+// //////////// Custom Errors //////////////////////
+type argError struct {
+	arg     int
+	message string
+}
+
+func (e *argError) Error() string {
+	return fmt.Sprintf("%d - %s", e.arg, e.message)
+}
+
+func f2(arg int) (int, error) {
+	if arg == 42 {
+		return -1, &argError{arg, "can't work with it!"}
+	}
+	return arg + 3, nil
+}
+
 func main() {
 	for _, i := range []int{7, 42} {
 		if r, e := f(i); e != nil {
@@ -50,5 +67,12 @@ func main() {
 		}
 
 		fmt.Println("Tea is ready!")
+	}
+
+	_, err := f2(42)
+	var ae *argError
+	// errors.As is a more advanced version of errors.Is. It checks that a given error (or any error in its chain) matches a specific error type and converts to a value of that type, returning true. If there’s no match, it returns false.
+	if errors.As(err, &ae) {
+		fmt.Println(ae.arg, ae.message)
 	}
 }
