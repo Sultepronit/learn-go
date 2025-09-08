@@ -13,6 +13,7 @@ func main() {
     <-timer1.C // blocks on the timer’s channel C until it sends a value indicating that the timer fired.
     fmt.Println("Timer 1 fired")
 
+    // If you just wanted to wait, you could have used time.Sleep. One reason a timer may be useful is that you can cancel the timer before it fires.
     timer2 := time.NewTimer(time.Second)
     go func() {
         <-timer2.C
