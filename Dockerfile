@@ -1,7 +1,7 @@
 FROM golang:1.25.1
 
 WORKDIR /app
-COPY . .
+# COPY . .
 
 # CMD ["go", "version"]
-CMD ["bash"]
+# CMD ["bash"]
