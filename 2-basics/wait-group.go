@@ -1,7 +1,7 @@
 package main
 
 // To wait for multiple goroutines to finish, we can use a wait group.
-// SHOULD WORK WITH go1.25.0+!
+// WORKS WITH go1.25.0+!
 
 import (
 	"fmt"
@@ -12,13 +12,13 @@ import (
 func worker(id int) {
 	fmt.Printf("Worker %d starting\n", id)
 	time.Sleep(time.Second)
-	fmt.Printf("Worker %d done\n")
+	fmt.Printf("Worker %d done\n", id)
 }
 
 func main() {
 	var wg sync.WaitGroup
-	fmt.Println(wg)
 
+	// Launch several goroutines using WaitGroup.Go
 	for i := 1; i <= 5; i++ {
 		wg.Go(func() {
 			worker(i)
