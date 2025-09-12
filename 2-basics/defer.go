@@ -23,6 +23,17 @@ func writeFile(file *os.File, data string) {
 	fmt.Fprintln(file, data)
 }
 
-func main() {
+func closeFile(file *os.File) {
+	pl("closing")
+	err := file.Close()
+	if err != nil {
+		panic(err)
+	}
+}
 
+func main() {
+	// Immediately after getting a file object with createFile, we defer the closing of that file with closeFile. This will be executed at the end of the enclosing function (main), after writeFile has finished.
+	f := createFile("/tmp/file.txt")
+	defer closeFile(f)
+	writeFile(f, "Hello there!")
 }
