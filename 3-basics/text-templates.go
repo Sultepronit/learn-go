@@ -27,4 +27,35 @@ func main() {
 		"C++",
 		"C#",
 	}) // value: [Go Rust C++ C#]git
+
+	makeTemp := func(name, t string) *template.Template {
+		return template.Must(template.New(name).Parse(t))
+	}
+
+	// If the data is a struct we can use the {{.FieldName}} action to access its fields. The fields should be exported to be accessible when a template is executing.
+	t2 := makeTemp("t2", "Name: {{.Name}}\n")
+	t2.Execute(os.Stdout, struct {
+		Name string
+	}{"Jane Doe"}) // Name: Jane Doe
+
+	// The same applies to maps; with maps there is no restriction on the case of key names.
+	t2.Execute(os.Stdout, map[string]string{
+		"Name": "Mickey Mouse",
+	}) // Name: Mickey Mouse
+
+	// if/else provide conditional execution for templates. A value is considered false if it’s the default value of a type, such as 0, an empty string, nil pointer, etc.
+	// - trims whitespaces
+	t3 := makeTemp("t3", "{{if . -}} yes {{else -}} no {{end}}\n")
+	t3.Execute(os.Stdout, "not empty")
+	t3.Execute(os.Stdout, "")
+
+	// range blocks let us loop through slices, arrays, maps or channels.
+	t4 := makeTemp("t4", "{{range .}}{{.}} {{end}}\n")
+	t4.Execute(os.Stdout,
+		[]string{
+			"Go",
+			"Rust",
+			"C++",
+			"C#",
+		}) // Go Rust C++ C#
 }
