@@ -15,6 +15,8 @@ type response2 struct {
 	Fruits []string `json:"fruits"`
 }
 
+var pl = fmt.Println
+
 func ps(data []byte) {
 	fmt.Println(string(data))
 }
@@ -39,4 +41,14 @@ func main() {
 	res2 := &response2{2, []string{"apple", "banana", "pear"}}
 	j5, _ := json.Marshal(res2)
 	ps(j5) // {"page":2,"fruits":["apple","banana","pear"]}
+
+	jb := []byte(`{"num":6.13,"strs":["a","b"]}`)
+	var dat map[string]interface{}
+	if err := json.Unmarshal(jb, &dat); err != nil {
+		panic(err)
+	}
+	pl(dat) // map[num:6.13 strs:[a b]]
+
+	num := dat["num"].(float64)
+	pl(num) // 6.13
 }
