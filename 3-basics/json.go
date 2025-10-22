@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
+	"strings"
 )
 
 type response1 struct {
@@ -49,6 +51,28 @@ func main() {
 	}
 	pl(dat) // map[num:6.13 strs:[a b]]
 
+	// In order to use the values in the decoded map, we’ll need to convert them to their appropriate type. For example here we convert the value in num to the expected float64 type.
 	num := dat["num"].(float64)
 	pl(num) // 6.13
+
+	// Accessing nested data requires a series of conversions.
+	strs := dat["strs"].([]interface{})
+	str1 := strs[0].(string)
+	pl(str1) // a
+
+	// We can also decode JSON into custom data types. This has the advantages of adding additional type-safety to our programs and eliminating the need for type assertions when accessing the decoded data.
+	str := `{"page": 1, "fruits": ["apple", "peach"]}`
+	res := response2{}
+	json.Unmarshal([]byte(str), &res)
+	pl(res) // {1 [apple peach]}
+	pl(res.Fruits[0]) // apple
+
+	enc := json.NewEncoder(os.Stdout)
+	d := map[string]int{"apple": 5, "lettuce": 7}
+	enc.Encode(d) // {"apple":5,"lettuce":7}
+
+	dec := json.NewDecoder(strings.NewReader(str))
+	res21 := response2{}
+	dec.Decode(&res21)
+	pl(res21) // {1 [apple peach]}
 }
