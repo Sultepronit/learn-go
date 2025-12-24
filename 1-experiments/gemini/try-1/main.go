@@ -28,9 +28,8 @@ func main() {
     // req = "論"
     req = "格"
     req = "巻" // 圏
-    // req = "道ホ"
-    req = "秋" // 称
-    req = "秋ホ" // 称
+    // req = "秋" // 称
+    // req = "秋ホ" // 称
 
 	ctx := context.Background()
 	// The client gets the API key from the environment variable `GEMINI_API_KEY`.
