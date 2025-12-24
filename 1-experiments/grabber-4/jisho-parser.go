@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func findNode(n *html.Node) *html.Node {
+func findTheNode(n *html.Node) *html.Node {
 	// n.RemoveChild()
 	if n.Data == "div" {
 		// fmt.Println(n.Type, n.Data, n.Attr)
@@ -23,7 +23,7 @@ func findNode(n *html.Node) *html.Node {
 			continue
 		}
 
-		r := findNode(c)
+		r := findTheNode(c)
 		if r != nil {
 			return r
 		}
@@ -67,7 +67,7 @@ func parseJisho() {
 
 	// fmt.Println(doc)
 
-	node := findNode(doc)
+	node := findTheNode(doc)
 	// cleanHtml(node)
 	html := toHtml(node)
 

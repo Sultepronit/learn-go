@@ -6,10 +6,10 @@ import (
 )
 
 type Plant struct {
-	XMLName	xml.Name	`xml:"plant"`
-	Id		int			`xml:"id,attr"`
-	Name	string		`xml:"name"`
-	Origin	[]string	`xml:"origin"`
+	XMLName xml.Name `xml:"plant"`
+	Id      int      `xml:"id,attr"`
+	Name    string   `xml:"name"`
+	Origin  []string `xml:"origin"`
 }
 
 func (p Plant) String() string {
@@ -40,8 +40,8 @@ func main() {
 
 	// The parent>child>plant field tag tells the encoder to nest all plants under <parent><child>...
 	type Nesting struct {
-		XMLName	xml.Name `xml:"nesting"`
-		Plants	[]*Plant `xml:"parent>child>plant"`
+		XMLName xml.Name `xml:"nesting"`
+		Plants  []*Plant `xml:"parent>child>plant"`
 	}
 
 	nesting := &Nesting{}

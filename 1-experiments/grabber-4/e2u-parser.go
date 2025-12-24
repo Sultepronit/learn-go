@@ -1,13 +1,11 @@
 package main
 
 import (
-	// "bytes"
-	"os"
 	"fmt"
+	"os"
 
 	"golang.org/x/net/html"
 )
-// n.RemoveChild()
 
 // func checkNode(n *html.Node, tag string) {
 // 	return n.Data == tag
@@ -20,7 +18,6 @@ func collectNodes(n *html.Node, result []*html.Node, tag string) []*html.Node {
 		}
 
 		if c.Data == tag {
-			// fmt.Println(c)
 			result = append(result, c)
 		} else {
 			result = collectNodes(c, result, tag)
@@ -30,8 +27,16 @@ func collectNodes(n *html.Node, result []*html.Node, tag string) []*html.Node {
 	return result
 }
 
-type article struct {
+func isArticleMain(article *html.Node, query string) bool {
+	b := findNode(article, "b")
+	if b == nil {
+		return false
+	}
 
+	header := getTextContent(b)
+	fmt.Println(header)
+
+	return true
 }
 
 func parseE2u() {
@@ -51,7 +56,6 @@ func parseE2u() {
 
 	// fmt.Println(doc)
 
-	
 	tds := make([]*html.Node, 0, 5)
 	tds = collectNodes(doc, tds, "td")
 	// fmt.Println(tds)
@@ -59,8 +63,8 @@ func parseE2u() {
 	// fmt.Println(html)
 
 	articles := map[string][]*html.Node{
-		"main": {},
-		"other": {},
+		"main":    {},
+		"other":   {},
 		"context": {},
 	}
 	for _, t := range tds {
@@ -69,12 +73,13 @@ func parseE2u() {
 			articles["context"] = append(articles["context"], t)
 		} else {
 			articles["main"] = append(articles["main"], t)
+			isArticleMain(t, "apple")
 		}
 	}
 	// fmt.Println(articles)
-	for i, t := range articles {
-		fmt.Println(i, t)
-	}
+	// for i, t := range articles {
+	// 	fmt.Println(i, t)
+	// }
 
 	// saveToFile("parsed2.html", html)
 }
