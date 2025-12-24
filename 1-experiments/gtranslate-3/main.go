@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// 1. Параметри
-	projectID := "hazel-lyceum-448211-t3" // Вставте свій ID
+	projectID := "" // Вставте свій ID
 	location := "global"                  // Зазвичай використовується global
 	text := "Hello, how are you?"
 	targetLang := "uk"
