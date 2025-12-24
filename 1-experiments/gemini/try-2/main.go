@@ -15,11 +15,9 @@ import (
 func main() {
 	ctx := context.Background()
 
-	// Створюємо клієнт. 
-	// Якщо ви зробили `export GOOGLE_APPLICATION_CREDENTIALS`, 
-	// SDK сам знайде ваші права без жодних ключів у коді!
-	// client, err := genai.NewClient(ctx, option.WithCredentialsFile("keys.json")) // Або без опції, якщо є export
-    client, err := genai.NewClient(ctx) // Або без опції, якщо є export
+	projectID := "hazel-lyceum-448211-t3" 
+	location := "global"                 
+    client, err := genai.NewClient(ctx, projectID, location) 
 	if err != nil {
 		log.Fatal(err)
 	}
