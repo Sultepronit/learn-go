@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bytes"
+	// "bytes"
 	"os"
 
 	"golang.org/x/net/html"
@@ -32,24 +32,24 @@ func findNode(n *html.Node) *html.Node {
 	return nil
 }
 
-func toHtml(n *html.Node) string {
-	var b bytes.Buffer
-	html.Render(&b, n)
-	s := b.String()
-	// fmt.Println(s)
-	return s
+// func toHtml(n *html.Node) string {
+// 	var b bytes.Buffer
+// 	html.Render(&b, n)
+// 	s := b.String()
+// 	// fmt.Println(s)
+// 	return s
 
-	// for _, node := range foundNodes {
-	// 	html.Render(&buf, node)
-	// }
-}
+// 	// for _, node := range foundNodes {
+// 	// 	html.Render(&buf, node)
+// 	// }
+// }
 
-func saveToFile(name string, text string) {
-	err := os.WriteFile(name, []byte(text), 0644)
-	if err != nil {
-		panic(err)
-	}
-}
+// func saveToFile(name string, text string) {
+// 	err := os.WriteFile(name, []byte(text), 0644)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// }
 
 func parseJisho() {
 	file, err := os.Open("jisho.html")

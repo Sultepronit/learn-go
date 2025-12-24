@@ -4,6 +4,7 @@ package main
 
 func main() {
     // grab(true)
-    grab(false)
+    // grab(false)
     // parseJisho()
+    parseE2u()
 }
