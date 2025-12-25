@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
+	"strings"
 
 	"golang.org/x/net/html"
 )
@@ -27,6 +29,17 @@ func collectNodes(n *html.Node, result []*html.Node, tag string) []*html.Node {
 	return result
 }
 
+func isHeaderRight(header string, expected string) bool {
+	spl := regexp.MustCompile(`[0-9]|\s\(-`)
+	header = spl.Split(header, 2)[0]
+	repl := strings.NewReplacer("|", "", "́", "")
+	header = repl.Replace(header)
+	header = strings.TrimSpace(header)
+	// fmt.Println("[", header, "]")
+	// fmt.Println("[", expected, "]")
+	return strings.EqualFold(header, expected)
+}
+
 func isArticleMain(article *html.Node, query string) bool {
 	b := findNode(article, "b")
 	if b == nil {
@@ -36,7 +49,7 @@ func isArticleMain(article *html.Node, query string) bool {
 	header := getTextContent(b)
 	fmt.Println(header)
 
-	return true
+	return isHeaderRight(header, query)
 }
 
 func parseE2u() {
@@ -71,15 +84,16 @@ func parseE2u() {
 		// fmt.Println(i, t)
 		if checkAttribute(t, "class", "result_row") {
 			articles["context"] = append(articles["context"], t)
-		} else {
+		} else if isArticleMain(t, "apple") {
 			articles["main"] = append(articles["main"], t)
-			isArticleMain(t, "apple")
+		} else {
+			articles["other"] = append(articles["other"], t)
 		}
 	}
 	// fmt.Println(articles)
-	// for i, t := range articles {
-	// 	fmt.Println(i, t)
-	// }
+	for i, t := range articles {
+		fmt.Println(i, t)
+	}
 
 	// saveToFile("parsed2.html", html)
 }

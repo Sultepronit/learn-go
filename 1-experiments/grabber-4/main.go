@@ -7,4 +7,8 @@ func main() {
 	// grab(false)
 	// parseJisho()
 	parseE2u()
+	// fmt.Println(isHeaderRight("печери́ця (-ці)", "печериця"))
+	// fmt.Println(isHeaderRight("пере́вертень (-тня)", "перевертень"))
+	// fmt.Println(isHeaderRight("pale2", "pale"))
+
 }
