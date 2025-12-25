@@ -74,7 +74,6 @@ func toHtml(n *html.Node) string {
 func nodesToHtml(nodes []*html.Node) string {
 	var b bytes.Buffer
 	for _, n := range nodes {
-		fmt.Println(n)
 		html.Render(&b, n)
 	}
 

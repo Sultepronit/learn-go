@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"regexp"
 	"strings"
@@ -34,7 +33,7 @@ func isHeaderRight(header string, expected string) bool {
 	header = spl.Split(header, 2)[0]
 	repl := strings.NewReplacer("|", "", "́", "")
 	header = repl.Replace(header)
-	header = strings.TrimSpace(header)
+	// header = strings.TrimSpace(header)
 	// fmt.Println("[", header, "]")
 	// fmt.Println("[", expected, "]")
 	return strings.EqualFold(header, expected)
@@ -47,7 +46,7 @@ func isArticleMain(article *html.Node, query string) bool {
 	}
 
 	header := getTextContent(b)
-	fmt.Println(header)
+	// fmt.Println(header)
 
 	return isHeaderRight(header, query)
 }
@@ -60,40 +59,40 @@ func parseE2u() {
 	}
 	defer file.Close()
 
-	// fmt.Println(file)
-
 	doc, err := html.Parse(file)
 	if err != nil {
 		panic(err)
 	}
 
-	// fmt.Println(doc)
-
 	tds := make([]*html.Node, 0, 5)
 	tds = collectNodes(doc, tds, "td")
-	// fmt.Println(tds)
-	// html := nodesToHtml(tds)
-	// fmt.Println(html)
 
 	articles := map[string][]*html.Node{
 		"main":    {},
 		"other":   {},
 		"context": {},
 	}
-	for _, t := range tds {
-		// fmt.Println(i, t)
-		if checkAttribute(t, "class", "result_row") {
-			articles["context"] = append(articles["context"], t)
-		} else if isArticleMain(t, "apple") {
-			articles["main"] = append(articles["main"], t)
+	for _, tag := range tds {
+		tag.Data = "div"
+
+		if checkAttribute(tag, "class", "result_row") {
+			articles["context"] = append(articles["context"], tag)
+		} else if isArticleMain(tag, "apple") {
+			articles["main"] = append(articles["main"], tag)
 		} else {
-			articles["other"] = append(articles["other"], t)
+			articles["other"] = append(articles["other"], tag)
 		}
 	}
-	// fmt.Println(articles)
-	for i, t := range articles {
-		fmt.Println(i, t)
+
+	order := []string{"main", "other", "context"}
+	var sb strings.Builder
+	for _, group := range order {
+		sb.WriteString(`<article class="`)
+		sb.WriteString(group)
+		sb.WriteString(`">`)
+		sb.WriteString(nodesToHtml(articles[group]))
+		sb.WriteString(`</article>`)
 	}
 
-	// saveToFile("parsed2.html", html)
+	saveToFile("parsed3.html", sb.String())
 }
