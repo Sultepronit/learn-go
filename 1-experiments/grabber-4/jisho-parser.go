@@ -69,7 +69,7 @@ func parseJisho() {
 
 	node := findTheNode(doc)
 	// cleanHtml(node)
-	html := toHtml(node)
+	html := nodeToHtml(node)
 
 	saveToFile("parsed1.html", html)
 }

@@ -12,7 +12,7 @@ import (
 // 	return n.Data == tag
 // }
 
-func collectNodes(n *html.Node, result []*html.Node, tag string) []*html.Node {
+func collectTheNodes(n *html.Node, result []*html.Node, tag string) []*html.Node {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		if c.Type != html.ElementNode {
 			continue
@@ -21,7 +21,7 @@ func collectNodes(n *html.Node, result []*html.Node, tag string) []*html.Node {
 		if c.Data == tag {
 			result = append(result, c)
 		} else {
-			result = collectNodes(c, result, tag)
+			result = collectTheNodes(c, result, tag)
 		}
 	}
 
@@ -65,7 +65,7 @@ func parseE2u() {
 	}
 
 	tds := make([]*html.Node, 0, 5)
-	tds = collectNodes(doc, tds, "td")
+	tds = collectTheNodes(doc, tds, "td")
 
 	articles := map[string][]*html.Node{
 		"main":    {},
