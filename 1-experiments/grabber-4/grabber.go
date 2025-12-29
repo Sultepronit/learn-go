@@ -11,14 +11,17 @@ func grab(slyMode bool) {
 	filename := "jisho.html"
 
 	// sly!
-	url = "https://e2u.org.ua/s?w=apple&dicts=all&highlight=on&filter_lines=on"
-	filename = "e2u.html"
+	// url = "https://e2u.org.ua/s?w=apple&dicts=all&highlight=on&filter_lines=on"
+	// filename = "e2u.html"
 
-	url = "https://e2u.org.ua/s?w=apple+pie&dicts=all&highlight=on&filter_lines=on"
-	filename = "e2u-2.html"
+	// url = "https://e2u.org.ua/s?w=apple+pie&dicts=all&highlight=on&filter_lines=on"
+	// filename = "e2u-2.html"
 
-	url = "https://slovnyk.ua/index.php?swrd=%D1%8F%D0%B1%D0%BB%D1%83%D1%87%D0%BD%D0%B8%D0%B9"
-	filename = "slovnyk.html"
+	// url = "https://slovnyk.ua/index.php?swrd=%D1%8F%D0%B1%D0%BB%D1%83%D1%87%D0%BD%D0%B8%D0%B9"
+	// filename = "slovnyk.html"
+
+	// url = "https://bank.gov.ua/ua/markets/exchangerate-chart"
+	// filename = "bank.html"
 
 	client := &http.Client{}
 

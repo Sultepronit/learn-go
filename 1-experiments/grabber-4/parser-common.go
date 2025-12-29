@@ -14,10 +14,24 @@ type Tag struct {
 	attrValue string
 }
 
-func checkAttribute(n *html.Node, attr string, value string) bool {
+func checkAttribute(n *html.Node, attr string, expVal string) bool {
 	for _, a := range n.Attr {
-		if a.Key == attr && a.Val == value {
-			return true
+		// fmt.Println(a.Key, a.Val)
+		// if a.Key == attr && a.Val == value {
+		// 	return true
+		// }
+		if a.Key == attr {
+			if a.Val == expVal {
+				return true
+			} else {
+				// values := strings.Fields(a.Val)
+				for _, val := range strings.Fields(a.Val) {
+					if val == expVal {
+						return true
+					}
+				}
+				return false
+			}
 		}
 	}
 
@@ -85,6 +99,27 @@ func getTextContent(n *html.Node) string {
 	traverse(n)
 
 	return sb.String()
+}
+
+func removeTags(n *html.Node, tags []Tag) {
+	for c := n.FirstChild; c != nil; {
+		next := c.NextSibling
+
+		if c.Type != html.ElementNode {
+			c = c.NextSibling
+			continue
+		}
+
+		for _, tag := range tags {
+			if checkNode(c, tag) {
+				n.RemoveChild(c)
+			} else {
+				c.Attr = nil
+				removeTags(c, tags)
+			}
+		}
+		c = next
+	}
 }
 
 func unwrapTags(n *html.Node, tag string) {

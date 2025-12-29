@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "bytes"
+	"fmt"
 	"os"
 
 	"golang.org/x/net/html"
@@ -32,25 +32,6 @@ func findTheNode(n *html.Node) *html.Node {
 	return nil
 }
 
-// func toHtml(n *html.Node) string {
-// 	var b bytes.Buffer
-// 	html.Render(&b, n)
-// 	s := b.String()
-// 	// fmt.Println(s)
-// 	return s
-
-// 	// for _, node := range foundNodes {
-// 	// 	html.Render(&buf, node)
-// 	// }
-// }
-
-// func saveToFile(name string, text string) {
-// 	err := os.WriteFile(name, []byte(text), 0644)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// }
-
 func parseJisho() {
 	file, err := os.Open("jisho.html")
 	if err != nil {
@@ -58,18 +39,31 @@ func parseJisho() {
 	}
 	defer file.Close()
 
-	// fmt.Println(file)
-
 	doc, err := html.Parse(file)
 	if err != nil {
 		panic(err)
 	}
 
-	// fmt.Println(doc)
+	// doc, err := grab2("https://jisho.org/search/%E5%BF%83", false)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	node := findTheNode(doc)
-	// cleanHtml(node)
-	html := nodeToHtml(node)
+	// node := findTheNode(doc)
+	// // cleanHtml(node)
+	// html := nodeToHtml(node)
 
-	saveToFile("parsed1.html", html)
+	// saveToFile("parsed-j0.html", html)
+
+	blocks := collectNodes(doc, Tag{"div", "class", "concept_light"})
+	fmt.Println(blocks)
+	for _, block := range blocks {
+		removeTags(block, []Tag{
+			{"div", "class", "concept_light-status"},
+			{"a", "class", "light-details_link"},
+		})
+	}
+
+	// fmt.Println(nodesToHtml(blocks))
+	saveToFile("parsed-j3.html", nodesToHtml(blocks))
 }
